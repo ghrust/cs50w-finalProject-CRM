@@ -17,16 +17,14 @@ jobs:
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'
+        python-version: 3.8
 
-    - name: Install Dependencies
-      uses: VaultVulp/action-pipenv@v2.0.1
-      with:
-        command: install # Install all dependencies
-    
+    - name: Install pipenv
+        run: pip install pipenv
+
     - name: Run Tests
       run: |
-        pipenv shell
-        python manage.py test
+        pipenv install
+        pipenv run manage.py test
       env:
         SECRET_KEY: TEST_SECRET_KEY
