@@ -25,6 +25,6 @@ jobs:
     - name: Run Tests
       run: |
         pipenv install
-        pipenv run manage.py test
+        pipenv run python manage.py test
       env:
         SECRET_KEY: TEST_SECRET_KEY
