@@ -9,6 +9,7 @@ djangorestframework = "3.12.1"
 python-dotenv = "0.14.0"
 
 [dev-packages]
+pylint = "*"
 
 [requires]
 python_version = "3.8"
