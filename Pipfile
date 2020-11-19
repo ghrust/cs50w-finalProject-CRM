@@ -8,6 +8,7 @@ Django = "3.2.10"
 djangorestframework = "3.12.1"
 python-dotenv = "0.14.0"
 whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
 pylint = "*"
