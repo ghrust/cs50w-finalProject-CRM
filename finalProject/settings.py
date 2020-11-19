@@ -21,7 +21,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.getenv('DEBUG', default=False))
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://cs50w-final-project-crm.herokuapp.com/']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'cs50w-final-project-crm.herokuapp.com']
 
 # Application definition
 
