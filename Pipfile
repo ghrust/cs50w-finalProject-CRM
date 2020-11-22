@@ -4,14 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-Django = "3.2.10"
-djangorestframework = "3.12.1"
-python-dotenv = "0.14.0"
+Django = "*"
+djangorestframework = "*"
+python-dotenv = "*"
 whitenoise = "*"
 gunicorn = "*"
 
 [dev-packages]
 pylint = "*"
+pycodestyle = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.8"
