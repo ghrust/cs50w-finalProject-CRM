@@ -2,8 +2,11 @@ __pycache__/
 env/
 .vscode/
 .idea/
+htmlcov/
+
 .env
 db.sqlite3
 *.pyc
 *.sublime-project
 *.sublime-workspace
+.coverage
