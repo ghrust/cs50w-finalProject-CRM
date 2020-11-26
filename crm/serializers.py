@@ -18,3 +18,12 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = '__all__'
+
+
+class CompanySerializer(serializers.ModelSerializer):
+    """
+    Serializer for Company model.
+    """
+    class Meta:
+        model = Company
+        fields = '__all__'
