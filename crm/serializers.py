@@ -10,6 +10,19 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_joined']
 
 
+class CreateUserSerializer(serializers.ModelSerializer):
+    """Serializer for register new user.
+    """
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', 'password', 'date_joined']
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'email': {'required': True},
+        }
+
+
+
 class CustomerSerializer(serializers.ModelSerializer):
     """
     Serializer for Customer model.
