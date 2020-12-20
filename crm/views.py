@@ -18,6 +18,6 @@ class ApiRoot(generics.GenericAPIView):
 
 class CreateUserApi(generics.CreateAPIView):
     """Register new user."""
-    # TODO: add name
+    name = 'user-api'
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
