@@ -1,3 +1,5 @@
+"""Views for crm app."""
+
 from rest_framework import generics
 from rest_framework.response import Response
 
@@ -11,6 +13,7 @@ class ApiRoot(generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         return Response({
+            'profile': '',
             'companies': '',
             'customers': '',
         })

@@ -1,23 +1,25 @@
+"""Serializers for crm app."""
+
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 from .models import User, Customer, Company
 
+
 class UserSerializer(serializers.ModelSerializer):
-    """
-    Serializer for User model.
-    """
+    """Serializer for User model."""
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'date_joined']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email',
+                  'date_joined']
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
-    """Serializer for register new user.
-    """
+    """Serializer for register new user."""
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password', 'date_joined']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password',
+                  'date_joined']
         extra_kwargs = {
             'password': {'write_only': True},
             'email': {
@@ -28,8 +30,10 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User(
-            email = validated_data['email'],
-            username = validated_data['username']
+            username=validated_data['username'],
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
         )
         user.set_password(validated_data['password'])
         user.save()
@@ -37,18 +41,14 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-    """
-    Serializer for Customer model.
-    """
+    """Serializer for Customer model."""
     class Meta:
         model = Customer
         fields = '__all__'
 
 
 class CompanySerializer(serializers.ModelSerializer):
-    """
-    Serializer for Company model.
-    """
+    """Serializer for Company model."""
     class Meta:
         model = Company
         fields = '__all__'
