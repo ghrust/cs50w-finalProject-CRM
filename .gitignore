@@ -3,6 +3,7 @@ env/
 .vscode/
 .idea/
 htmlcov/
+staticfiles/
 
 .env
 db.sqlite3
