@@ -3,7 +3,7 @@
 from rest_framework import generics
 from rest_framework.response import Response
 
-from .serializers import CreateUserSerializer
+from .serializers import UserSerializer, CreateUserSerializer
 from .models import User
 
 
@@ -24,3 +24,14 @@ class CreateUserApi(generics.CreateAPIView):
     name = 'user-api'
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
+
+
+class UserDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    """User profile API. Get, update, delete user info."""
+    name = 'user-detail'
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
