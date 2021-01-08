@@ -6,12 +6,17 @@ from rest_framework.validators import UniqueValidator
 from .models import User, Customer, Company
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer for User model."""
+    companies = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='company-detail')
+
     class Meta:
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'email',
-                  'date_joined']
+                  'date_joined', 'companies']
         extra_kwargs = {'date_joined': {'read_only': True}}
 
 

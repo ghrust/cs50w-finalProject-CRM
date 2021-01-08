@@ -3,6 +3,7 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import permissions
+from rest_framework.reverse import reverse
 
 from .serializers import UserSerializer, CreateUserSerializer
 from .models import User
@@ -12,9 +13,9 @@ class ApiRoot(generics.GenericAPIView):
     """Main page."""
     name = 'api-root'
 
-    def get(self, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         return Response({
-            'profile': '',
+            'profile': reverse(UserDetailAPI.name, request=request),
             'companies': '',
             'customers': '',
         })
