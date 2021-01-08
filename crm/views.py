@@ -2,6 +2,7 @@
 
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework import permissions
 
 from .serializers import UserSerializer, CreateUserSerializer
 from .models import User
@@ -28,10 +29,10 @@ class CreateUserApi(generics.CreateAPIView):
 
 class UserDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     """User profile API. Get, update, delete user info."""
-    # TODO: Add permissions.
     name = 'user-detail'
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         serializer = UserSerializer(request.user)
