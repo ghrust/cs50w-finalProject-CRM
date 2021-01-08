@@ -13,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'email',
                   'date_joined']
+        extra_kwargs = {'date_joined': {'read_only': True}}
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
