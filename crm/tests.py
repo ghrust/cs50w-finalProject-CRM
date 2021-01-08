@@ -87,6 +87,7 @@ class RegisterUserTestCase(APITestCase):
 class UserDetailAPITestCase(APITestCase):
     """Test UserDetailAPI."""
 
+    # TODO: Permission tests.
     def setup(self):
         """Test setup."""
         register_user()
@@ -94,15 +95,8 @@ class UserDetailAPITestCase(APITestCase):
     def test_user_detail_get(self):
         """Test get request for user detail API."""
 
-        url = 'profile/'
+        url = reverse(views.UserDetailAPI.name)
 
-        response = self.client.get(
-            url,
-            headers={
-                'Authorization': {'username': DEFAULT_USER_DATA['username'],
-                                  'password': DEFAULT_USER_DATA['password']}
-            })
+        response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['username'],
-                         DEFAULT_USER_DATA['username'])

@@ -8,6 +8,7 @@ from .models import User, Customer, Company
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for User model."""
+    # TODO: date_joined field read_only
     class Meta:
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'email',

@@ -28,6 +28,7 @@ class CreateUserApi(generics.CreateAPIView):
 
 class UserDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     """User profile API. Get, update, delete user info."""
+    # TODO: Add permissions.
     name = 'user-detail'
     queryset = User.objects.all()
     serializer_class = UserSerializer
