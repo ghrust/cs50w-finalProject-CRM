@@ -12,7 +12,7 @@ class ApiRoot(generics.GenericAPIView):
     """Main page."""
     name = 'api-root'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         return Response({
             'profile': '',
             'companies': '',
@@ -34,6 +34,6 @@ class UserDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
