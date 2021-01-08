@@ -87,7 +87,7 @@ class RegisterUserTestCase(APITestCase):
 class UserDetailAPITestCase(APITestCase):
     """Test UserDetailAPI."""
 
-    def setup(self):
+    def setUp(self):
         """Test setup."""
         register_user()
 
@@ -100,3 +100,15 @@ class UserDetailAPITestCase(APITestCase):
         print(f'\n{response.data}')
 
         self.assertEqual(response.status_code, 401)
+
+    def test_user_detail_get_authenticated(self):
+        """Test authenticated get request for user detail API."""
+
+        url = reverse(views.UserDetailAPI.name)
+
+        self.client.login(username='user01',
+                          password='pass')
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
