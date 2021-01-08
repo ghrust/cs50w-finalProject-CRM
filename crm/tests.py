@@ -7,7 +7,7 @@ from . import views
 from .models import User
 
 
-DEFAULT_USER_DATA = {
+TEST_USER_DATA = {
         'username': 'user01',
         'email': 'user01@test.com',
         'password': 'pass',
@@ -16,7 +16,7 @@ DEFAULT_USER_DATA = {
     }
 
 
-def register_user(data=DEFAULT_USER_DATA):
+def register_user(data=TEST_USER_DATA):
     """Register new test user."""
 
     url = reverse(views.CreateUserApi.name)
@@ -40,7 +40,7 @@ class RegisterUserTestCase(APITestCase):
         User.objects.first()
         self.assertEqual(response.data['username'], 'user01')
 
-    def test_regitster_user_existing_name(self):
+    def test_register_user_existing_name(self):
         """User registration test when username already exists."""
 
         register_user()
@@ -62,8 +62,8 @@ class RegisterUserTestCase(APITestCase):
 
         register_user()
 
-        # username 'user01@test.com' already exists. Try to register another
-        # user with the same email.
+        # Username 'user01@test.com' already exists.
+        # Try to register another user with the same email.
 
         response = register_user({
             'username': 'user02',
@@ -106,8 +106,8 @@ class UserDetailAPITestCase(APITestCase):
 
         url = reverse(views.UserDetailAPI.name)
 
-        self.client.login(username='user01',
-                          password='pass')
+        self.client.login(username=TEST_USER_DATA['username'],
+                          password=TEST_USER_DATA['password'])
 
         response = self.client.get(url)
 
