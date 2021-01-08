@@ -6,9 +6,10 @@ from . import views
 
 urlpatterns = [
     path('', views.ApiRoot.as_view(), name=views.ApiRoot.name),
-    path(
-        'register/',
-        views.CreateUserApi.as_view(),
-        name=views.CreateUserApi.name
-    ),
+    path('register/',
+         views.CreateUserApi.as_view(),
+         name=views.CreateUserApi.name),
+    path('profile/',
+         views.UserDetailAPI.as_view(),
+         name=views.UserDetailAPI.name),
 ]

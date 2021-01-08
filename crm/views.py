@@ -2,8 +2,10 @@
 
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework import permissions
+from rest_framework.reverse import reverse
 
-from .serializers import CreateUserSerializer
+from .serializers import UserSerializer, CreateUserSerializer
 from .models import User
 
 
@@ -13,7 +15,7 @@ class ApiRoot(generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         return Response({
-            'profile': '',
+            'profile': reverse(UserDetailAPI.name, request=request),
             'companies': '',
             'customers': '',
         })
@@ -24,3 +26,15 @@ class CreateUserApi(generics.CreateAPIView):
     name = 'user-api'
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
+
+
+class UserDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    """User profile API. Get, update, delete user info."""
+    name = 'user-detail'
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)

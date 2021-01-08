@@ -46,6 +46,7 @@ class Company(models.Model):
 
     owner = models.ForeignKey(
         User,
+        related_name='companies',
         verbose_name='company owner',
         on_delete=models.CASCADE,
         blank=False,
