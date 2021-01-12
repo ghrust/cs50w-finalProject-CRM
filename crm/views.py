@@ -1,12 +1,15 @@
 """Views for crm app."""
+from loguru import logger
 
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import permissions
 from rest_framework.reverse import reverse
+from rest_framework import viewsets
 
-from .serializers import UserSerializer, CreateUserSerializer
-from .models import User
+from .custom_permissions import IsOwner
+from .serializers import UserSerializer, CreateUserSerializer, CompanySerializer
+from .models import User, Company
 
 
 class ApiRoot(generics.GenericAPIView):
@@ -16,7 +19,7 @@ class ApiRoot(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         return Response({
             'profile': reverse(UserDetailAPI.name, request=request),
-            'companies': '',
+            'companies': reverse('company-list', request=request),
             'customers': '',
         })
 
@@ -33,8 +36,29 @@ class UserDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     name = 'user-detail'
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
+
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    """Company API. Retrieve, update, partial update, delete."""
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def create(self, request, *args, **kwargs):
+        logger.debug(request.data)
+        data = {
+            'name': request.data['name'],
+            'owner': request.user.id,
+        }
+        logger.debug(data)
+        serializer = self.get_serializer(data=data)
+        logger.debug(serializer.initial_data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

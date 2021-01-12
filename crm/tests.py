@@ -1,7 +1,10 @@
 """Tests for crm app."""
 
+from loguru import logger
+
 from rest_framework.test import APITestCase, APIClient
 from rest_framework.reverse import reverse
+from rest_framework import status
 
 from . import views
 from .models import User
@@ -14,6 +17,9 @@ TEST_USER_DATA = {
         'first_name': 'user',
         'last_name': '01',
     }
+TEST_COMPANY_DATA = {
+    'name': 'company01'
+}
 
 
 def register_user(data=TEST_USER_DATA):
@@ -23,6 +29,7 @@ def register_user(data=TEST_USER_DATA):
 
     client = APIClient()
     response = client.post(url, data, format='json')
+    user = User.objects.get(username=TEST_USER_DATA['username'])
 
     return response
 
@@ -54,7 +61,7 @@ class RegisterUserTestCase(APITestCase):
             'email': 'user02@test.com'
         })
 
-        print(f'\n{response.data}')
+        logger.info(f'\n{response.data}')
         self.assertEqual(response.status_code, 400)
 
     def test_register_user_not_unique_email(self):
@@ -71,7 +78,7 @@ class RegisterUserTestCase(APITestCase):
             'email': 'user01@test.com'
             })
 
-        print(f'\n{response.data}')
+        logger.info(f'\n{response.data}')
 
         self.assertEqual(response.status_code, 400)
 
@@ -97,7 +104,7 @@ class UserDetailAPITestCase(APITestCase):
         url = reverse(views.UserDetailAPI.name)
 
         response = self.client.get(url)
-        print(f'\n{response.data}')
+        logger.info(f'\n{response.data}')
 
         self.assertEqual(response.status_code, 401)
 
@@ -112,3 +119,45 @@ class UserDetailAPITestCase(APITestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
+
+
+class CompanyAPITestCase(APITestCase):
+    """Test company API."""
+    def setUp(self):
+        register_user()
+
+    def test_get_company_list_unauthorized(self):
+        """Test unauthorized get request for company API."""
+        url = reverse('company-list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 401)
+
+    # @logger.catch
+    # def test_get_company_list_authorized(self):
+    #     """Test authorized get request for company API."""
+    #     url = reverse('company-list')
+    #     register_user()
+    #     self.client.login(username=TEST_USER_DATA['username'],
+    #                       password=TEST_USER_DATA['password'])
+    #     response = self.client.get(url, data=TEST_COMPANY_DATA)
+    #
+    #     logger.debug(response.data)
+    #
+    #     response = self.client.get(url)
+    #     self.assertEqual(response.status_code, 200)
+    #
+    #     logger.debug(response.data)
+    #
+    #     self.assertEqual(response.data['name'], TEST_COMPANY_DATA['name'])
+
+    def test_create_new_company(self):
+        """Test creating new company."""
+        register_user()
+        self.client.login(username=TEST_USER_DATA['username'],
+                          password=TEST_USER_DATA['password'])
+        url = reverse('company-list')
+        response = self.client.post(url, data=TEST_COMPANY_DATA)
+
+        logger.info(response.data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

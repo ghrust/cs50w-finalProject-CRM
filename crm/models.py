@@ -59,5 +59,8 @@ class Company(models.Model):
         blank=True,
     )
 
+    class Meta:
+        verbose_name_plural = 'companies'
+
     def __str__(self):
         return str(self.name)
