@@ -163,8 +163,14 @@ class CompanyAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_retrieve_company(self):
+        """Test get company."""
+        url = reverse('company-detail', args=[1])
+        self.client.login(username=TEST_USER_DATA['username'],
+                          password=TEST_USER_DATA['password'])
+        response = self.client.get(url)
+        logger.info(response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data[0]['name'], TEST_COMPANY_DATA['name'])
+        self.assertEqual(response.data['name'], TEST_COMPANY_DATA['name'])
 
     def test_update_company(self):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
