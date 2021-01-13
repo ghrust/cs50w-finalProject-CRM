@@ -161,3 +161,14 @@ class CompanyAPITestCase(APITestCase):
         logger.info(response.data)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_retrieve_company(self):
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]['name'], TEST_COMPANY_DATA['name'])
+
+    def test_update_company(self):
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]['name'], 'changed_name')
+
+    def test_delete_company(self):
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
