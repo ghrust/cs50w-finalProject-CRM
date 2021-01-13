@@ -50,14 +50,11 @@ class CompanyViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwner]
 
     def create(self, request, *args, **kwargs):
-        logger.debug(request.data)
         data = {
             'name': request.data['name'],
             'owner': request.user.id,
         }
-        logger.debug(data)
         serializer = self.get_serializer(data=data)
-        logger.debug(serializer.initial_data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)

@@ -132,23 +132,17 @@ class CompanyAPITestCase(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 401)
 
-    # @logger.catch
-    # def test_get_company_list_authorized(self):
-    #     """Test authorized get request for company API."""
-    #     url = reverse('company-list')
-    #     register_user()
-    #     self.client.login(username=TEST_USER_DATA['username'],
-    #                       password=TEST_USER_DATA['password'])
-    #     response = self.client.get(url, data=TEST_COMPANY_DATA)
-    #
-    #     logger.debug(response.data)
-    #
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
-    #
-    #     logger.debug(response.data)
-    #
-    #     self.assertEqual(response.data['name'], TEST_COMPANY_DATA['name'])
+    def test_get_company_list_authorized(self):
+        """Test authorized get request for company API."""
+        url = reverse('company-list')
+        register_user()
+        self.client.login(username=TEST_USER_DATA['username'],
+                          password=TEST_USER_DATA['password'])
+        self.client.post(url, data=TEST_COMPANY_DATA)
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]['name'], TEST_COMPANY_DATA['name'])
 
     def test_create_new_company(self):
         """Test creating new company."""
