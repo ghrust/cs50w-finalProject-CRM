@@ -7,8 +7,7 @@ from rest_framework.reverse import reverse
 from rest_framework import status
 
 from . import views
-from .models import User
-
+from .models import User, Company
 
 TEST_USER_DATA = {
         'username': 'user01',
@@ -125,6 +124,12 @@ class CompanyAPITestCase(APITestCase):
     """Test company API."""
     def setUp(self):
         register_user()
+        user01 = User.objects.get(username=TEST_USER_DATA['username'])
+        user02 = User.objects.create_user(username='user02', password='pass',
+                                          email='user02f@test.com')
+        Company.objects.create(name='company01', owner=user01)
+        Company.objects.create(name='company02', owner=user01)
+        Company.objects.create(name='company03', owner=user02)
 
     def test_get_company_list_unauthorized(self):
         """Test unauthorized get request for company API."""
@@ -135,18 +140,17 @@ class CompanyAPITestCase(APITestCase):
     def test_get_company_list_authorized(self):
         """Test authorized get request for company API."""
         url = reverse('company-list')
-        register_user()
+        user01 = User.objects.get(username=TEST_USER_DATA['username'])
         self.client.login(username=TEST_USER_DATA['username'],
                           password=TEST_USER_DATA['password'])
-        self.client.post(url, data=TEST_COMPANY_DATA)
 
         response = self.client.get(url)
+        logger.debug(response.data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data[0]['name'], TEST_COMPANY_DATA['name'])
+        self.assertEqual(len(response.data), user01.companies.all().count())
 
     def test_create_new_company(self):
         """Test creating new company."""
-        register_user()
         self.client.login(username=TEST_USER_DATA['username'],
                           password=TEST_USER_DATA['password'])
         url = reverse('company-list')
