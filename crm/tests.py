@@ -145,7 +145,9 @@ class CompanyAPITestCase(APITestCase):
                           password=TEST_USER_DATA['password'])
 
         response = self.client.get(url)
-        logger.debug(response.data)
+
+        logger.info(response.data)
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), user01.companies.all().count())
 
