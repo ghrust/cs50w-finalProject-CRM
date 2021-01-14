@@ -125,6 +125,8 @@ class CompanyAPITestCase(APITestCase):
     # TODO: refactor user login
     def setUp(self):
         register_user()
+        self.client.login(username=TEST_USER_DATA['username'],
+                          password=TEST_USER_DATA['password'])
         user01 = User.objects.get(username=TEST_USER_DATA['username'])
         user02 = User.objects.create_user(username='user02', password='pass',
                                           email='user02f@test.com')
@@ -135,15 +137,15 @@ class CompanyAPITestCase(APITestCase):
     def test_get_company_list_unauthorized(self):
         """Test unauthorized get request for company API."""
         url = reverse('company-list')
+        self.client.logout()
         response = self.client.get(url)
+        logger.info(response.data)
         self.assertEqual(response.status_code, 401)
 
     def test_get_company_list_authorized(self):
         """Test authorized get request for company API."""
         url = reverse('company-list')
         user01 = User.objects.get(username=TEST_USER_DATA['username'])
-        self.client.login(username=TEST_USER_DATA['username'],
-                          password=TEST_USER_DATA['password'])
 
         response = self.client.get(url)
 
@@ -154,8 +156,6 @@ class CompanyAPITestCase(APITestCase):
 
     def test_create_new_company(self):
         """Test creating new company."""
-        self.client.login(username=TEST_USER_DATA['username'],
-                          password=TEST_USER_DATA['password'])
         url = reverse('company-list')
         response = self.client.post(url, data=TEST_COMPANY_DATA)
 
@@ -166,8 +166,6 @@ class CompanyAPITestCase(APITestCase):
     def test_retrieve_company(self):
         """Test get company."""
         url = reverse('company-detail', args=[1])
-        self.client.login(username=TEST_USER_DATA['username'],
-                          password=TEST_USER_DATA['password'])
         response = self.client.get(url)
         logger.info(response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -176,8 +174,6 @@ class CompanyAPITestCase(APITestCase):
     def test_update_company(self):
         """Test update company data."""
         url = reverse('company-detail', args=[1])
-        self.client.login(username=TEST_USER_DATA['username'],
-                          password=TEST_USER_DATA['password'])
         new_name = 'NewName'
         data = {'name': new_name}
         response = self.client.patch(url, data=data)
@@ -186,4 +182,8 @@ class CompanyAPITestCase(APITestCase):
         self.assertEqual(response.data['name'], new_name)
 
     def test_delete_company(self):
+        """Test delete company."""
+        url = reverse('company-detail', args=[1])
+        response = self.client.delete(url)
+        logger.info(response)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
