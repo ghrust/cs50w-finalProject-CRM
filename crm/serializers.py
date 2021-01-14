@@ -55,6 +55,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 class CompanySerializer(serializers.ModelSerializer):
     """Serializer for Company model."""
+    # TODO: company owner read_only
     class Meta:
         model = Company
         fields = '__all__'
