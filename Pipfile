@@ -9,6 +9,7 @@ djangorestframework = "*"
 python-dotenv = "*"
 whitenoise = "*"
 gunicorn = "*"
+loguru = "*"
 
 [dev-packages]
 pylint = "*"
