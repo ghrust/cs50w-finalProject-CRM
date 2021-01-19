@@ -21,14 +21,15 @@ TEST_COMPANY_DATA = {
 }
 
 
-def register_user(data=TEST_USER_DATA):
+def register_user(data=None):
     """Register new test user."""
 
+    if data is None:
+        data = TEST_USER_DATA
     url = reverse(views.CreateUserApi.name)
 
     client = APIClient()
     response = client.post(url, data, format='json')
-    user = User.objects.get(username=TEST_USER_DATA['username'])
 
     return response
 
@@ -38,29 +39,22 @@ class RegisterUserTestCase(APITestCase):
 
     def test_register_user(self):
         """Ensure we can register new user."""
-
         response = register_user()
-
+        logger.info(response.data)
         self.assertEqual(response.status_code, 201)
-
-        User.objects.first()
-        self.assertEqual(response.data['username'], 'user01')
+        self.assertEqual(response.data['username'], TEST_USER_DATA['username'])
 
     def test_register_user_existing_name(self):
         """User registration test when username already exists."""
-
         register_user()
-
         # username 'user01' already exists. Try to register another user with
         # the same name.
-
         response = register_user({
             'username': 'user01',
             'password': 'pass',
             'email': 'user02@test.com'
         })
-
-        logger.info(f'\n{response.data}')
+        logger.info(response.data)
         self.assertEqual(response.status_code, 400)
 
     def test_register_user_not_unique_email(self):
@@ -122,7 +116,6 @@ class UserDetailAPITestCase(APITestCase):
 
 class CompanyAPITestCase(APITestCase):
     """Test company API."""
-    # TODO: refactor user login
     def setUp(self):
         register_user()
         self.client.login(username=TEST_USER_DATA['username'],

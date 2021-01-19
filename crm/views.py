@@ -1,11 +1,9 @@
 """Views for crm app."""
-from loguru import logger
 
-from rest_framework import generics, status
+from rest_framework import generics, viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework import viewsets
 
 from .custom_permissions import IsOwner
 from .serializers import UserSerializer, CreateUserSerializer, CompanySerializer
@@ -16,7 +14,7 @@ class ApiRoot(generics.GenericAPIView):
     """Main page."""
     name = 'api-root'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         return Response({
             'profile': reverse(UserDetailAPI.name, request=request),
             'companies': reverse('company-list', request=request),
