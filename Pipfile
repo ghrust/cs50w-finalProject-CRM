@@ -10,6 +10,7 @@ python-dotenv = "*"
 whitenoise = "*"
 gunicorn = "*"
 loguru = "*"
+dj-database-url = "*"
 
 [dev-packages]
 pylint = "*"
