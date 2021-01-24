@@ -191,17 +191,18 @@ class CompanyAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
 
-# class CustomerAPITestCase(APITestCase):
-#     """Test Customer API."""
-#     def setUp(self):
-#         user01 = User.objects.create_user(**TEST_USER_DATA)
-#         Company.objects.create(**TEST_COMPANY_DATA, owner=user01)
+class CustomerAPITestCase(APITestCase):
+    """Test Customer API."""
+    def setUp(self):
+        user01 = User.objects.create_user(**TEST_USER_DATA)
+        logger.info(user01)
+        company = Company.objects.create(**TEST_COMPANY_DATA, owner=user01)
+        logger.info(company)
 
-#     def test_add_new_customer(self):
-#         """Test add new customer."""
-#         url = reverse('/customers/')
-#         self.client.login(username=TEST_USER_DATA['username'],
-#                           password=TEST_USER_DATA['password'])
-#         response = self.client.post(url, TEST_CUSTOMER_DATA)
+    def test_add_new_customer(self):
+        """Test add new customer."""
+        url = reverse('/customers/')
+        self.client.login(**TEST_USER_DATA)
+        response = self.client.post(url, TEST_CUSTOMER_DATA)
 
-#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
