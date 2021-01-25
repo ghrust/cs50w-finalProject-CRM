@@ -7,7 +7,7 @@ from rest_framework.reverse import reverse
 from rest_framework import status
 
 from . import views
-from .models import User, Company
+from .models import User, Company, Customer
 
 TEST_USER_DATA = {
         'username': 'user01',
@@ -26,7 +26,6 @@ TEST_CUSTOMER_DATA = {
     'email': 'customer_first@test.com',
     'phone_number': '1234567890',
     'address': 'Test Address',
-    'companies': [],
 }
 
 
@@ -193,16 +192,30 @@ class CompanyAPITestCase(APITestCase):
 
 class CustomerAPITestCase(APITestCase):
     """Test Customer API."""
+    # TODO: test uniqueness company/customer pair
     def setUp(self):
         user01 = User.objects.create_user(**TEST_USER_DATA)
-        Company.objects.create(**TEST_COMPANY_DATA, owner=user01)
+        test_company = Company.objects.create(**TEST_COMPANY_DATA, owner=user01)
+        # create customer without company, because 'TypeError: Direct
+        # assignment to the forward side of a many-to-many set is
+        # prohibited. Use companies.set() instead.'
+        test_customer = Customer.objects.create(**TEST_CUSTOMER_DATA)
+        test_customer.companies.add(test_company)  # add company
 
     def test_add_new_customer(self):
         """Test add new customer."""
         url = reverse('customer-list')
         self.client.login(**TEST_USER_DATA)
-        TEST_CUSTOMER_DATA['companies'].append(1)
-        response = self.client.post(url, TEST_CUSTOMER_DATA)
+        # Create customer. Sum two dicts in args.
+        response = self.client.post(url, {**TEST_CUSTOMER_DATA, **{'companies': [1]}})
         logger.info(response.data)
-
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_retrieve_customer_detail(self):
+        """Test customer detail."""
+        url = reverse('customer-detail', args=[1])  # pk=1
+        self.client.login(**TEST_USER_DATA)
+        response = self.client.get(url)
+        logger.info(response.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['first_name'], TEST_CUSTOMER_DATA['first_name'])
