@@ -25,8 +25,8 @@ TEST_CUSTOMER_DATA = {
     'last_name': 'first',
     'email': 'customer_first@test.com',
     'phone_number': '1234567890',
-    'address': 'Test Adress',
-    'company': 'test_company',
+    'address': 'Test Address',
+    'companies': [],
 }
 
 
@@ -195,14 +195,14 @@ class CustomerAPITestCase(APITestCase):
     """Test Customer API."""
     def setUp(self):
         user01 = User.objects.create_user(**TEST_USER_DATA)
-        logger.info(user01)
-        company = Company.objects.create(**TEST_COMPANY_DATA, owner=user01)
-        logger.info(company)
+        Company.objects.create(**TEST_COMPANY_DATA, owner=user01)
 
     def test_add_new_customer(self):
         """Test add new customer."""
-        url = reverse('/customers/')
+        url = reverse('customer-list')
         self.client.login(**TEST_USER_DATA)
+        TEST_CUSTOMER_DATA['companies'].append(1)
         response = self.client.post(url, TEST_CUSTOMER_DATA)
+        logger.info(response.data)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from .custom_permissions import IsOwner
-from .serializers import UserSerializer, CreateUserSerializer, CompanySerializer
-from .models import User, Company
+from .serializers import UserSerializer, CreateUserSerializer, CompanySerializer, CustomerSerializer
+from .models import User, Company, Customer
 
 
 class ApiRoot(generics.GenericAPIView):
@@ -71,3 +71,10 @@ class CompanyViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class CustomerViewSet(viewsets.ModelViewSet):
+    """Customer API. Retrieve, update, partial update, delete."""
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+    permission_classes = [IsAuthenticated, ]

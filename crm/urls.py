@@ -7,6 +7,7 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'companies', views.CompanyViewSet, basename='company')
+router.register(r'customers', views.CustomerViewSet, basename='customer')
 
 urlpatterns = [
     path('', views.ApiRoot.as_view(), name=views.ApiRoot.name),
