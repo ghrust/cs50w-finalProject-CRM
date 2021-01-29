@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crm', '0002_company'),
+        ('api', '0002_company'),
     ]
 
     operations = [
@@ -26,6 +26,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='company',
             name='customers',
-            field=models.ManyToManyField(related_name='customers', to='crm.Customer', verbose_name="company's client"),
+            field=models.ManyToManyField(related_name='customers', to='api.Customer', verbose_name="company's client"),
         ),
     ]
