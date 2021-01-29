@@ -1,4 +1,4 @@
-"""Serializers for crm app."""
+"""Serializers for api app."""
 
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator

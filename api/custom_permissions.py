@@ -1,4 +1,4 @@
-"""Custom permissions for crm app."""
+"""Custom permissions for api app."""
 from rest_framework.permissions import BasePermission
 
 

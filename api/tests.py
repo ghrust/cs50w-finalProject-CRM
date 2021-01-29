@@ -1,4 +1,4 @@
-"""Tests for crm app."""
+"""Tests for api app."""
 
 from loguru import logger
 

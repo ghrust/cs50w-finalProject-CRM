@@ -1,4 +1,4 @@
-"""URL config for crm app."""
+"""URL config for api app."""
 
 from django.urls import path
 from rest_framework.routers import DefaultRouter

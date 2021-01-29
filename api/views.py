@@ -1,4 +1,4 @@
-"""Views for crm app."""
+"""Views for api app."""
 
 from rest_framework import generics, viewsets, status
 from rest_framework.permissions import IsAuthenticated
