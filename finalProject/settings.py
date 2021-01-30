@@ -37,7 +37,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
-    'api.apps.ApiConfig',
+    # 'api.apps.ApiConfig',
+    'crm.apps.CrmConfig',
 ]
 
 MIDDLEWARE = [
@@ -87,7 +88,7 @@ db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl
 DATABASES['default'].update(db_from_env)
 
 # User model
-AUTH_USER_MODEL = 'api.User'
+# AUTH_USER_MODEL = 'api.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
