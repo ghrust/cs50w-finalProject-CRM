@@ -37,8 +37,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
-    # 'api.apps.ApiConfig',
+    'accounts.apps.AccountsConfig',
     'crm.apps.CrmConfig',
+    # 'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'finalProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [str(BASE_DIR.joinpath('templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,7 +89,7 @@ db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl
 DATABASES['default'].update(db_from_env)
 
 # User model
-AUTH_USER_MODEL = 'crm.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
