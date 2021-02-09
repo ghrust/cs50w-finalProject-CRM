@@ -1,4 +1,7 @@
-from django.shortcuts import render
+"""
+crm/views.py
+CRM app views.
+"""
 from django.http import HttpResponse
 
 

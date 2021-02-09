@@ -1,0 +1,9 @@
+"""accounts/admin.py
+   Register models in admin panel.
+"""
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+
+from accounts.models import User
+
+admin.site.register(User, UserAdmin)
