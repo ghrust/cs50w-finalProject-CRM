@@ -135,3 +135,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ]
 }
+
+# URL to redirect the user upon a successful login.
+LOGIN_REDIRECT_URL = '/'
