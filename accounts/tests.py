@@ -44,4 +44,4 @@ class LoginPageTestCase(TestCase):
         url = reverse('login')
         response = self.client.post(url, {'username': 'user', 'password': 'Word9876'})
         logger.info(response)
-        self.assertRedirects(response, reverse('index'))
+        self.assertRedirects(response, reverse('dashboard'))
