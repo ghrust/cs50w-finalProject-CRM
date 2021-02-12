@@ -45,3 +45,17 @@ class LoginPageTestCase(TestCase):
         response = self.client.post(url, {'username': 'user', 'password': 'Word9876'})
         logger.info(response)
         self.assertRedirects(response, reverse('dashboard'))
+
+
+class UserDetailPageTestCase(TestCase):
+    """Test user detail (profile) page."""
+    def setUp(self):
+        User.objects.create_user(username='test_user', password='Word9876')
+
+    def test_user_detail_page_get(self):
+        """Test get request for user detail page."""
+        url = reverse('user-detail')
+        self.client.login(username='test_user', password='Word9876')
+        response = self.client.get(url)
+        logger.info(response.content)
+        self.assertEqual(response.status_code, 200)
