@@ -138,3 +138,4 @@ REST_FRAMEWORK = {
 
 # URL to redirect the user upon a successful login.
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL='/'
