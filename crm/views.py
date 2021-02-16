@@ -3,6 +3,9 @@ crm/views.py
 CRM app views.
 """
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
+
+from .models import Customer
 
 
 class DashboardView(TemplateView):
@@ -13,3 +16,8 @@ class DashboardView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['companies'] = '-'
         return context
+
+
+class CustomerView(DetailView):
+    """View for customer page."""
+    model = Customer
