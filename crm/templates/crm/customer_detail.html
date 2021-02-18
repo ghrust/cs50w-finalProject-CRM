@@ -1,0 +1,10 @@
+{% extends "crm/base.html" %}
+
+{% block content %}
+<h2>Customer's Profile</h2>
+    <p>First name: {{ object.first_name }}</p>
+    <p>Last name: {{ object.last_name }}</p>
+    <p>Email: {{ object.email }}</p>
+    <p>Phone: {{ object.phone }}</p>
+    <p>Orders:</p>
+{% endblock content %}
