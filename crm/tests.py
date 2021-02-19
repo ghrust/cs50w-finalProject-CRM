@@ -2,11 +2,11 @@
 CRM App tests.
 """
 from django.test import TestCase
-from django.shortcuts import reverse
+from django.urls import reverse
 
 from loguru import logger
 
-from .models import Customer
+from .models import Customer, User
 
 
 class IndexPageTestCase(TestCase):
@@ -22,10 +22,12 @@ class IndexPageTestCase(TestCase):
 class CustomerTestCase(TestCase):
     """Test Customer page"""
     def setUp(self):
+        test_user = User.objects.create_user(username='user', password='pass')
         Customer.objects.create(
             first_name='Customer',
             last_name='Test',
-            phone=1234567890)
+            phone=1234567890,
+            vendor=test_user)
 
     def test_customer_profile_page_get(self):
         """Test get request for customer profile page."""
