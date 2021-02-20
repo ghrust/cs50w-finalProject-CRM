@@ -36,3 +36,9 @@ class CustomerTestCase(TestCase):
         logger.info(response.context['object'])
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['object'], Customer.objects.first())
+
+    def test_add_new_customer_get(self):
+        """Test can we add new customer."""
+        url = reverse('customer-form')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
