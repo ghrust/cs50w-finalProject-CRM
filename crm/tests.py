@@ -65,3 +65,11 @@ class CustomerTestCase(TestCase):
         customer = Customer.objects.last()
         logger.info(f'\nCustomer created: {customer}\nVendor: {customer.vendor}')
         self.assertEqual(response.status_code, 200)
+
+    def test_customer_list_page(self):
+        """Test customer list page."""
+        self.client.login(**TEST_USER)
+        url = reverse('customer-list')
+        response = self.client.get(url)
+        logger.info(response)
+        self.assertEqual(response.status_code, 200)
