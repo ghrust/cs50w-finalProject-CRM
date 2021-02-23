@@ -20,7 +20,7 @@ class Customer(models.Model):
         verbose_name="Customer's phone number",
     )
     email = models.EmailField(verbose_name="Customer's email")
-    vendor = models.ForeignKey(User, blank=False, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now=True)
 
     def __str__(self):
