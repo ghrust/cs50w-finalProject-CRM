@@ -1,6 +1,6 @@
 from django import forms
 
-from crm.models import User
+from crm.models import User, Customer
 
 
 class SignUpForm(forms.ModelForm):
@@ -8,3 +8,9 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password']
+
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['first_name', 'last_name', 'phone', 'email']
