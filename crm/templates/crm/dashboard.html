@@ -9,8 +9,13 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <h3>Recent customers: {{ recent_customers }}</h3>
+                <h3>Recent customers:</h3>
                 <a href="{% url 'customer-form' %}"><button class="btn btn-dark">New customer</button></a>
+                <ul>
+                    {% for customer in recent_customers %}
+                        <li><a href="{% url 'customer-detail' pk=customer.id %}">{{ customer }}</a></li>
+                    {% endfor %}    
+                </ul>
             </div>
             <div class="col-sm">
                 <h3>Recent orders: {{ recent_orders }}</h3>

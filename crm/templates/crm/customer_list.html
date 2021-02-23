@@ -1,0 +1,16 @@
+{% extends "crm/base.html" %}
+
+{% block title %}
+    Customers
+{% endblock title %}
+
+{% block content %}
+<h2>Customers</h2>
+    <ul>
+        {% for customer in object_list %}
+            <li><a href="{% url 'customer-detail' pk=customer.id %}">{{ customer }}</a></li>
+        {% empty %}
+            <li>No customers yet.</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

@@ -57,5 +57,5 @@ class UserDetailPageTestCase(TestCase):
         url = reverse('user-detail')
         self.client.login(username='test_user', password='Word9876')
         response = self.client.get(url)
-        logger.info(response.content)
+        logger.info(response)
         self.assertEqual(response.status_code, 200)

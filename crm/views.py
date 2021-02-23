@@ -4,6 +4,7 @@ CRM app views.
 """
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
 
@@ -17,12 +18,17 @@ class DashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['companies'] = '-'
+        context['recent_customers'] = Customer.objects.all()
         return context
 
 
 class CustomerDetailView(DetailView):
     """View for customer page."""
+    model = Customer
+
+
+class CustomerListView(ListView):
+    """Customer list page."""
     model = Customer
 
 
