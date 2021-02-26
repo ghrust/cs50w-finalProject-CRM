@@ -73,3 +73,13 @@ class CustomerTestCase(TestCase):
         response = self.client.get(url)
         logger.info(response)
         self.assertEqual(response.status_code, 200)
+
+    def test_customer_update(self):
+        """Test can we update customer's data."""
+        self.client.login(**TEST_USER)
+        url = reverse('customer-update', args=[Customer.objects.first().id])
+        response = self.client.post(
+            url, {**TEST_CUSTOMER, **{'first_name': 'Edited'}})
+        logger.info(response)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Customer.objects.first().first_name, 'Edited')
