@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
 
 from .forms import CustomerForm
@@ -25,6 +26,12 @@ class DashboardView(TemplateView):
 class CustomerDetailView(DetailView):
     """View for customer page."""
     model = Customer
+
+
+class CustomerUpdateView(UpdateView):
+    """View for update edit/update customer's data."""
+    model = Customer
+    fields = ['first_name', 'last_name', 'phone', 'email']
 
 
 class CustomerListView(ListView):
