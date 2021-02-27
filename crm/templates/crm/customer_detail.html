@@ -7,4 +7,5 @@
     <p>Email: {{ object.email }}</p>
     <p>Phone: {{ object.phone }}</p>
     <p>Orders:</p>
+    <a class="btn btn-dark" href="{% url 'customer-update' pk=object.id %}">Edit</a>
 {% endblock content %}

@@ -6,13 +6,16 @@ from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 from .forms import CustomerForm
 from .models import Customer
 
 
-class DashboardView(TemplateView):
+class DashboardView(LoginRequiredMixin, TemplateView):
     """View for main page."""
     template_name = 'crm/dashboard.html'
 
@@ -22,14 +25,26 @@ class DashboardView(TemplateView):
         return context
 
 
-class CustomerDetailView(DetailView):
+class CustomerDetailView(LoginRequiredMixin, DetailView):
     """View for customer page."""
     model = Customer
 
 
-class CustomerListView(ListView):
+class CustomerUpdateView(LoginRequiredMixin, UpdateView):
+    """View for update edit/update customer's data."""
+    model = Customer
+    fields = ['first_name', 'last_name', 'phone', 'email']
+
+
+class CustomerListView(LoginRequiredMixin, ListView):
     """Customer list page."""
     model = Customer
+
+
+class CustomerDeleteView(LoginRequiredMixin, DeleteView):
+    """View to delete customer."""
+    model = Customer
+    success_url = reverse_lazy('customer-list')
 
 
 @login_required
