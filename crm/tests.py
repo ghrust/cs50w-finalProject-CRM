@@ -6,7 +6,8 @@ from django.urls import reverse
 
 from loguru import logger
 
-from .models import Customer, User
+from accounts.models import User
+from crm.models import Customer
 
 
 TEST_USER = {
