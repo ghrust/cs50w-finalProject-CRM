@@ -83,3 +83,12 @@ class CustomerTestCase(TestCase):
         logger.info(response)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Customer.objects.first().first_name, 'Edited')
+
+    def test_customer_delete(self):
+        """Test can we delete customer."""
+        self.client.login(**TEST_USER)
+        url = reverse('customer-delete', args=[Customer.objects.first().id])
+        response = self.client.post(url)
+        logger.info(response)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Customer.objects.first(), None)

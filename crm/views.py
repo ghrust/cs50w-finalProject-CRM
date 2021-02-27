@@ -6,8 +6,9 @@ from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 
 from .forms import CustomerForm
 from .models import Customer
@@ -37,6 +38,12 @@ class CustomerUpdateView(UpdateView):
 class CustomerListView(ListView):
     """Customer list page."""
     model = Customer
+
+
+class CustomerDeleteView(DeleteView):
+    """View to delete customer."""
+    model = Customer
+    success_url = reverse_lazy('customer-list')
 
 
 @login_required

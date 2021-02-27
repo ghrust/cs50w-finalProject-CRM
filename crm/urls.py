@@ -13,4 +13,6 @@ urlpatterns = [
          name='customer-update'),
     path('customers/new', views.customer_create_view,
          name='customer-form'),
+    path('customers/delete/<int:pk>', views.CustomerDeleteView.as_view(),
+         name='customer-delete'),
 ]
