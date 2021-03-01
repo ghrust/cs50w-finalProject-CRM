@@ -8,6 +8,12 @@ from loguru import logger
 from accounts.models import User
 
 
+TEST_USER = {
+    'username': 'test_user',
+    'password': 'Word9876',
+}
+
+
 class RegisterPageTestCase(TestCase):
     """Test register page."""
     def test_register_page_get_request(self):
@@ -59,3 +65,20 @@ class UserDetailPageTestCase(TestCase):
         response = self.client.get(url)
         logger.info(response)
         self.assertEqual(response.status_code, 200)
+
+
+class UserUpdateDeleteTestCase(TestCase):
+    """Test user update page and user delete page."""
+    def setUp(self):
+        User.objects.create_user(**TEST_USER)
+
+    def test_update_user_profile(self):
+        """Test can we update user info."""
+        self.client.login(**TEST_USER)
+        url = reverse('user-update')
+        new_name = 'Test_edit'
+        response = self.client.post(
+            url, {**TEST_USER, **{'username': new_name}})
+        logger.info(response)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(User.objects.first().username, new_name)

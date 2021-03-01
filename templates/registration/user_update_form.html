@@ -1,0 +1,15 @@
+{% extends 'crm/base.html' %}
+
+{% block title %}Profile update{% endblock title %}
+
+{% block content %}
+    <h2>Edit profile</h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% for error in form.errors %}
+            {{ error }}
+        {% endfor %}
+        <button type="submit">Save</button>
+    </form>
+{% endblock content %}
