@@ -72,7 +72,7 @@ class UserUpdateDeleteTestCase(TestCase):
     def setUp(self):
         User.objects.create_user(**TEST_USER)
 
-    def test_update_user_profile(self):
+    def test_update_username(self):
         """Test can we update user info."""
         self.client.login(**TEST_USER)
         url = reverse('user-update')
@@ -82,3 +82,8 @@ class UserUpdateDeleteTestCase(TestCase):
         logger.info(response)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(User.objects.first().username, new_name)
+
+    def test_update_password(self):
+        """Test can we change password."""
+        self.client.login(**TEST_USER)
+        url = reverse('password_change')
