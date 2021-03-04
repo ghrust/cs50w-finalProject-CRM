@@ -14,11 +14,11 @@
                 <ul>
                     {% for customer in recent_customers %}
                         <li><a href="{% url 'customer-detail' pk=customer.id %}">{{ customer }}</a></li>
-                    {% endfor %}    
+                    {% endfor %}
                 </ul>
             </div>
             <div class="col-sm">
-                <h3>Recent orders: {{ recent_orders }}</h3>
+                <h3>Recent orders: </h3>
                 <a href="#"><button class="btn btn-dark">New order</button></a>
             </div>
         </div>
