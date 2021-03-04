@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic.base import TemplateView
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from .forms import UserCreationForm, UserUpdateForm
 
@@ -21,6 +22,7 @@ class UserDetailView(TemplateView):
     template_name = 'registration/profile.html'
 
 
+@login_required
 def user_update_view(request):
     if request.method == 'POST':
         form = UserUpdateForm(request.POST)

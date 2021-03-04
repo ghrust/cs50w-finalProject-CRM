@@ -80,8 +80,7 @@ class UserUpdateDeleteTestCase(TestCase):
         response = self.client.post(
             url, {**TEST_USER, **{'username': new_name}})
         logger.info(response)
-        self.assertEqual(response.status_code, 302)
-        # TODO: test assertRedirects(response, <sucsess_url>)
+        self.assertRedirects(response, reverse('user-detail'))
         self.assertEqual(User.objects.first().username, new_name)
 
     def test_update_password(self):
