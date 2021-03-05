@@ -7,4 +7,6 @@
 {% block content %}
     <h2>Profile</h2>
     <h4>{{ user.username }}</h4>
+    <a href="{% url 'password_change' %}">Change password</a>
+    <a href="{% url 'delete_account' %}">Delete</a>
 {% endblock content %}
