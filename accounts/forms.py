@@ -1,13 +1,13 @@
 """accounts/forms.py
    Accounts app forms.
 """
-from django.contrib.auth import forms
-from django.forms import ModelForm
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
 
 from accounts.models import User
 
 
-class UserCreationForm(forms.UserCreationForm):
+class CustomUserCreationForm(UserCreationForm):
     """
     A form that creates a user, with no privileges, from the given username and
     password.
@@ -17,9 +17,11 @@ class UserCreationForm(forms.UserCreationForm):
         fields = ('username', 'email',)
 
 
-class UserUpdateForm(ModelForm):
+class UserDeleteForm(forms.Form):
     """Form for update user info."""
 
-    class Meta:
-        model = User
-        fields = ['username']
+    password = forms.CharField(
+        label=("Password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'password'}),
+    )

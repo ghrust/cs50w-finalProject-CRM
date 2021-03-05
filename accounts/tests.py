@@ -72,17 +72,6 @@ class UserUpdateDeleteTestCase(TestCase):
     def setUp(self):
         User.objects.create_user(**TEST_USER)
 
-    def test_update_username(self):
-        """Test can we update user info."""
-        self.client.login(**TEST_USER)
-        url = reverse('user-update')
-        new_name = 'Test_edit'
-        response = self.client.post(
-            url, {**TEST_USER, **{'username': new_name}})
-        logger.info(response)
-        self.assertRedirects(response, reverse('user-detail'))
-        self.assertEqual(User.objects.first().username, new_name)
-
     def test_update_password(self):
         """Test can we change password."""
         self.client.login(**TEST_USER)
@@ -97,3 +86,12 @@ class UserUpdateDeleteTestCase(TestCase):
             })
         logger.info(response)
         self.assertRedirects(response, reverse('password_change_done'))
+
+    def test_delete_user_account(self):
+        """Test can we delete user account."""
+        self.client.login(**TEST_USER)
+        url = reverse('delete_account')
+        response = self.client.post(url, {'password': TEST_USER['password']})
+        logger.info(response)
+        self.assertRedirects(response, reverse('signup'))
+        self.assertEqual(User.objects.all().count(), 0)

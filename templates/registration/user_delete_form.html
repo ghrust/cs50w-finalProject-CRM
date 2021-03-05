@@ -1,0 +1,14 @@
+{% extends 'crm/base.html' %}
+
+{% block title %}Delete account{% endblock title %}
+
+{% block content %}
+    <h2>Delete Account</h2>
+    <p>Enter password to confirm</p>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p>{{ error }}</p>
+        <button type="submit">Delete</button>
+    </form>
+{% endblock content %}
