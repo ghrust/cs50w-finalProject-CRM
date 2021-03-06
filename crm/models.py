@@ -30,3 +30,12 @@ class Customer(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}\nPhone: {self.phone}'
+
+
+class Order(models.Model):
+    """Order model."""
+    customer = models.ForeignKey(Customer)
+    vendor = models.ForeignKey(User, blank=True, null=True)
+    product = models.ForeignKey(Product)
+    price = models.CharField()
+    timestamp = models.DateTimeField(auto_now=True)
