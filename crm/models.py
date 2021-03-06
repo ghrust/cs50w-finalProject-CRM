@@ -30,3 +30,16 @@ class Customer(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}\nPhone: {self.phone}'
+
+
+class Category(models.Model):
+    """Product category."""
+    name = models.CharField(
+        verbose_name='product category',
+        max_length=100)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self) -> str:
+        return f'{self.name}'
