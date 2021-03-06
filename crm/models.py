@@ -32,10 +32,25 @@ class Customer(models.Model):
         return f'{self.first_name} {self.last_name}\nPhone: {self.phone}'
 
 
+class Category(models.Model):
+    """Product category."""
+    name = models.CharField(
+        verbose_name='product category',
+        max_length=100)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self) -> str:
+        return f'{self.name}'
+
+
 class Product(models.Model):
     """Product model."""
-    name = models.CharField()
-    price = models.CharField()
-    category = models.ForeignKey(Category)
+    name = models.CharField(
+        verbose_name='product name',
+        max_length=150)
+    price = models.CharField(verbose_name='product price', max_length=15)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now=True)
