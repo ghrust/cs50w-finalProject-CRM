@@ -43,3 +43,20 @@ class Category(models.Model):
 
     def __str__(self) -> str:
         return f'{self.name}'
+
+
+class Product(models.Model):
+    """Product model."""
+    name = models.CharField(
+        verbose_name='product name',
+        max_length=150)
+    price = models.CharField(verbose_name='product price', max_length=15)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return f'name: {self.name}, price: {self.price}'
