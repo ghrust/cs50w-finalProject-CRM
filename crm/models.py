@@ -54,3 +54,9 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return f'name: {self.name}, price: {self.price}'
