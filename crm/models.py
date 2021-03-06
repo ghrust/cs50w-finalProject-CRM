@@ -30,3 +30,12 @@ class Customer(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}\nPhone: {self.phone}'
+
+
+class Product(models.Model):
+    """Product model."""
+    name = models.CharField()
+    price = models.CharField()
+    category = models.ForeignKey(Category)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now=True)
