@@ -39,4 +39,7 @@ class Category(models.Model):
         max_length=100)
 
     class Meta:
-        order = 'name'
+        ordering = ['name']
+
+    def __str__(self) -> str:
+        return f'{self.name}'

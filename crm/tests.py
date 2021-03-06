@@ -7,7 +7,7 @@ from django.urls import reverse
 from loguru import logger
 
 from accounts.models import User
-from crm.models import Customer
+from crm.models import Customer, Category
 
 
 TEST_USER = {
@@ -98,3 +98,12 @@ class CustomerTestCase(TestCase):
         logger.info(response)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Customer.objects.first(), None)
+
+
+class CategoryTestCase(TestCase):
+    """Test for product category."""
+    def test_category_model(self):
+        """Test can we create category."""
+        category = Category.objects.create(name='test_category')
+        logger.info(category)
+        self.assertEqual(Category.objects.all().count(), 1)
