@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from loguru import logger
 
-from crm.models import Category, Order, Product, User
+from crm.models import Category, Customer, Order, Product, User
 from crm.tests import TEST_USER, TEST_CUSTOMER
 
 
