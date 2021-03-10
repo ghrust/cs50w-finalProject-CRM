@@ -14,6 +14,7 @@ class ProductTestCase(TestCase):
     def setUp(self):
         Category.objects.create(name='test_category')
         User.objects.create_user(**TEST_USER)
+        self.client.login(**TEST_USER)
 
     def test_product_model(self):
         """Test can we add product."""
@@ -26,14 +27,14 @@ class ProductTestCase(TestCase):
         logger.info(product)
         self.assertEqual(Category.objects.all().count(), 1)
 
-    def test_product_create_page(self):
+    def test_post_request_to_product_create_page(self):
         """Test product create page."""
         url = reverse('product_create')
         response = self.client.post(url, {
             'name': 'test_product',
-            'category': Category.objects.first(),
+            'category': Category.objects.first().id,
             'price': '18.99',
         })
-        logger.info(response)
-        # TODO: change to reverse('product_list')
+        logger.info(response.content)
+        # TODO: change to reverse('product_detail')
         self.assertRedirects(response, reverse('dashboard'))

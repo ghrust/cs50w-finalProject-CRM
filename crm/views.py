@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
+from loguru import logger
+
 from .forms import CustomerForm
 from .models import Customer, Product
 
@@ -68,3 +70,9 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     """Product create page."""
     model = Product
     fields = ['name', 'category', 'price']
+    # TODO: change to 'product_detail'
+    success_url = reverse_lazy('dashboard')
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)

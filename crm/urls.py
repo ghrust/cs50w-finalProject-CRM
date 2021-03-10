@@ -15,4 +15,5 @@ urlpatterns = [
          name='customer-form'),
     path('customers/delete/<int:pk>', views.CustomerDeleteView.as_view(),
          name='customer-delete'),
+    path('products/new', views.ProductCreateView.as_view(), name='product_create'),
 ]
