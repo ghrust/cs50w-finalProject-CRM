@@ -12,9 +12,15 @@ from crm.tests import TEST_USER
 class ProductTestCase(TestCase):
     """Test for product."""
     def setUp(self):
-        Category.objects.create(name='test_category')
-        User.objects.create_user(**TEST_USER)
+        category = Category.objects.create(name='test_category')
+        user = User.objects.create_user(**TEST_USER)
         self.client.login(**TEST_USER)
+        Product.objects.create(
+            name='test_product_1',
+            price='99.99',
+            category=category,
+            owner=user
+        )
 
     def test_product_model(self):
         """Test can we add product."""
@@ -36,5 +42,12 @@ class ProductTestCase(TestCase):
             'price': '18.99',
         })
         logger.info(response.content)
-        # TODO: change to reverse('product_detail')
-        self.assertRedirects(response, reverse('dashboard'))
+        self.assertRedirects(response, reverse('product_detail', args=[2]))
+
+    def test_product_detail_page(self):
+        """Test can we retrieve product detail page."""
+        url = reverse('product_detail', args=[1])
+        response = self.client.get(url)
+        logger.info(response.context_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context_data['object'].name, 'test_product_1')

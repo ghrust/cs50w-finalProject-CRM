@@ -1,0 +1,10 @@
+{% extends 'crm/base.html' %}
+
+{% block title %}Product detail.{% endblock title %}
+
+{% block content %}
+    <h2>Product detail.</h2>
+    <p>Name: {{ object.name }}</p>
+    <p>Category: {{ object.category }}</p>
+    <p>Price: {{ object.price }}</p>
+{% endblock content %}

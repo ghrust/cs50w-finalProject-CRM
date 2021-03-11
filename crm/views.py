@@ -48,7 +48,7 @@ class CustomerDeleteView(LoginRequiredMixin, DeleteView):
     model = Customer
     success_url = reverse_lazy('customer-list')
 
-
+# TODO: Refactor with class based view.
 @login_required
 def customer_create_view(request):
     """Add new customer."""
@@ -70,9 +70,12 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     """Product create page."""
     model = Product
     fields = ['name', 'category', 'price']
-    # TODO: change to 'product_detail'
-    success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
+
+class ProductDetailView(LoginRequiredMixin, DetailView):
+    """Product detail view."""
+    model = Product
