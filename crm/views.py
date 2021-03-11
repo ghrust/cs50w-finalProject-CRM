@@ -23,7 +23,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['recent_customers'] = Customer.objects.all()
+        context['recent_customers'] = Customer.objects.filter(vendor=self.request.user)
         return context
 
 
@@ -41,6 +41,10 @@ class CustomerUpdateView(LoginRequiredMixin, UpdateView):
 class CustomerListView(LoginRequiredMixin, ListView):
     """Customer list page."""
     model = Customer
+
+    def get_queryset(self):
+        self.queryset = Customer.objects.filter(vendor=self.request.user)
+        return super(CustomerListView, self).get_queryset()
 
 
 class CustomerDeleteView(LoginRequiredMixin, DeleteView):
@@ -79,3 +83,12 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 class ProductDetailView(LoginRequiredMixin, DetailView):
     """Product detail view."""
     model = Product
+
+
+class ProductListView(LoginRequiredMixin, ListView):
+    """Product list page."""
+    model = Product
+
+    def get_queryset(self):
+        self.queryset = Product.objects.filter(owner=self.request.user)
+        return super(ProductListView, self).get_queryset()

@@ -51,3 +51,14 @@ class ProductTestCase(TestCase):
         logger.info(response.context_data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['object'].name, 'test_product_1')
+
+    def test_get_request_to_product_list_page(self):
+        user = User.objects.first()
+        url = reverse('product_list')
+        response = self.client.get(url)
+        logger.info(response.context_data['object_list'])
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.context_data['object_list'].count(),
+            Product.objects.filter(owner=user).count()
+        )
