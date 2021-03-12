@@ -73,3 +73,11 @@ class ProductTestCase(TestCase):
         logger.info(response.context_data['object'])
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['object'].name, new_name)
+
+    def test_product_delete_page(self):
+        """Testing if we can delete product."""
+        url = reverse('product_delete', args=[1])
+        response = self.client.post(url)
+        logger.info(response)
+        self.assertRedirects(response, reverse('product_list'))
+        self.assertEqual(Product.objects.first(), None)

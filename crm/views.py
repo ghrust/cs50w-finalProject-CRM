@@ -98,3 +98,9 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     """Product update page."""
     model = Product
     fields = ['name', 'category', 'price']
+
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    """Product delete page."""
+    model = Product
+    success_url = reverse_lazy('product_list')
