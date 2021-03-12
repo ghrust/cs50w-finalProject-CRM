@@ -92,3 +92,9 @@ class ProductListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         self.queryset = Product.objects.filter(owner=self.request.user)
         return super(ProductListView, self).get_queryset()
+
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    """Product update page."""
+    model = Product
+    fields = ['name', 'category', 'price']

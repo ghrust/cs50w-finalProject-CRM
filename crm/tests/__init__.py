@@ -9,3 +9,9 @@ TEST_CUSTOMER = {
     'phone': 1234567890,
     'email': 'test_cust@test.com',
 }
+
+TEST_PRODUCT = {
+    'name': 'test_product',
+    'category': 1,
+    'price': '100'
+}

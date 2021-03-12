@@ -6,7 +6,7 @@ from django.urls import reverse
 from loguru import logger
 
 from crm.models import Category, Product, User
-from crm.tests import TEST_USER
+from crm.tests import TEST_USER, TEST_PRODUCT
 
 
 class ProductTestCase(TestCase):
@@ -53,6 +53,7 @@ class ProductTestCase(TestCase):
         self.assertEqual(response.context_data['object'].name, 'test_product_1')
 
     def test_get_request_to_product_list_page(self):
+        """Testing if we can retrieve product list with get request."""
         user = User.objects.first()
         url = reverse('product_list')
         response = self.client.get(url)
@@ -62,3 +63,13 @@ class ProductTestCase(TestCase):
             response.context_data['object_list'].count(),
             Product.objects.filter(owner=user).count()
         )
+
+    def test_product_update_page(self):
+        """Testing if we can update product info."""
+        url = reverse('product_update', args=[1])
+        new_name = 'edited'
+        response = self.client.post(
+            url, {**TEST_PRODUCT, **{'name': new_name}}, follow=True)
+        logger.info(response.context_data['object'])
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context_data['object'].name, new_name)
