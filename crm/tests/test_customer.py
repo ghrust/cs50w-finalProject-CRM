@@ -1,40 +1,13 @@
-"""crm/tests.py
-CRM App tests.
-"""
+"""crm/tests/test_customer.py
+Tests for product feature."""
 from django.test import TestCase
 from django.urls import reverse
 
 from loguru import logger
 
 from accounts.models import User
-from crm.models import Customer, Category, Product, Order
-
-
-TEST_USER = {
-    'username': 'test_user',
-    'password': 'Word9876',
-}
-
-TEST_CUSTOMER = {
-    'first_name': 'Cust',
-    'last_name': 'Test',
-    'phone': 1234567890,
-    'email': 'test_cust@test.com',
-}
-
-
-class IndexPageTestCase(TestCase):
-    """Test root URL."""
-    def setUp(self):
-        User.objects.create_user(**TEST_USER)
-
-    def test_index_page_get(self):
-        """Test get request for index page."""
-        self.client.login(**TEST_USER)
-        url = reverse('dashboard')
-        response = self.client.get(url)
-        logger.info(response)
-        self.assertEqual(response.status_code, 200)
+from crm.models import Customer
+from crm.tests import TEST_USER, TEST_CUSTOMER
 
 
 class CustomerTestCase(TestCase):
@@ -98,51 +71,3 @@ class CustomerTestCase(TestCase):
         logger.info(response)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Customer.objects.first(), None)
-
-
-class CategoryTestCase(TestCase):
-    """Test for product category."""
-    def test_category_model(self):
-        """Test can we create category."""
-        category = Category.objects.create(name='test_category')
-        logger.info(category)
-        self.assertEqual(Category.objects.all().count(), 1)
-
-
-class ProductTestCase(TestCase):
-    """Test for product."""
-    def setUp(self):
-        Category.objects.create(name='test_category')
-        User.objects.create_user(**TEST_USER)
-
-    def test_product_model(self):
-        """Test can we add product."""
-        product = Product.objects.create(
-            name='Test_product',
-            price='99.99',
-            owner=User.objects.first(),
-            category=Category.objects.first()
-        )
-        logger.info(product)
-        self.assertEqual(Category.objects.all().count(), 1)
-
-
-class OrderTestCase(TestCase):
-    """Test order feature."""
-    def setUp(self):
-        user = User.objects.create_user(**TEST_USER)
-        Customer.objects.create(**TEST_CUSTOMER)
-        category = Category.objects.create(name='Test_category')
-        Product.objects.create(name='Test_product', category=category,
-                               price='18,99', owner=user)
-
-    def test_order_create(self):
-        """Test can we create order programmatically."""
-        order = Order.objects.create(
-            customer=Customer.objects.first(),
-            vendor=User.objects.first(),
-            product=Product.objects.first(),
-            payed_price='18,99',
-        )
-        logger.info(order)
-        self.assertEqual(Order.objects.all().count(), 1)
