@@ -4,9 +4,10 @@
 
 {% block content %}
     <h2>Products.</h2>
+    <a href="{% url 'product_create'%}">Add new product</a>
     <ul>
-        {% for product in objects %}
-            <li><a href="{% url 'product_detail' pk=product.id %}"></a>{{product.name}}</li>
+        {% for product in product_list %}
+            <li><a href="{% url 'product_detail' pk=product.id %}">{{ product.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock content %}

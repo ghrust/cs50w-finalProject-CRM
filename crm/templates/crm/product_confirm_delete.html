@@ -1,0 +1,11 @@
+{% extends 'crm/base.html' %}
+
+{% block title %}Delete{% endblock title %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete {{ object }}</p>
+    <input type="submit" name="delete-product" id="" value="Submit">
+</form>
+{% endblock content %}

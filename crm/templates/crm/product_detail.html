@@ -7,4 +7,5 @@
     <p>Name: {{ object.name }}</p>
     <p>Category: {{ object.category }}</p>
     <p>Price: {{ object.price }}</p>
+    <a href="{% url 'product_delete' pk=object.id %}">Delete</a>
 {% endblock content %}
