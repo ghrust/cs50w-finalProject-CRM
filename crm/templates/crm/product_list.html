@@ -1,0 +1,17 @@
+{% extends 'crm/base.html' %}
+
+{% block title %}Product List{% endblock title %}
+
+{% block content %}
+    <h2>Products.</h2>
+    <a href="{% url 'product_create'%}">Add new product</a>
+    <ul>
+        {% for object in object_list %}
+            <li>
+                <a href="{% url 'product_detail' pk=object.id %}">{{ object }}</a>
+                <a href="{% url 'product_update' pk=object.id %}">Edit</a>
+                <a href="{% url 'product_delete' pk=object.id %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

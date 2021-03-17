@@ -1,6 +1,6 @@
 from django import forms
 
-from crm.models import User, Customer
+from crm.models import Customer, User
 
 
 class SignUpForm(forms.ModelForm):
